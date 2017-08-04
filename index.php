@@ -1,5 +1,4 @@
 <?php
-
 require_once (dirname(__FILE__) . '/OKCoin/OKCoin.php');
 
 const API_KEY = "OKCoin提供的api_key";
@@ -27,6 +26,18 @@ try {
 	//获取OKCoin行情（盘口数据）
 	$params = array('symbol' => 'eth_cny');
 	$ethInfo = $client -> tickerApi($params);
+
+	//获取via Bcc行情
+	$url = 'https://www.viabtc.com/api/v1/market/ticker?market=BCCCNY';
+	$curl = curl_init();
+	curl_setopt($curl, CURLOPT_URL, $url);
+	curl_setopt($curl, CURLOPT_HEADER, 0);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);//这个是重点。
+	$data = curl_exec($curl);
+	curl_close($curl);
+	$bccInfo = json_decode($data);
+
 	$tab_str = "
 	    <table border=\"1\" width=\"80%\" align=\"center\">
 	        <tr>
@@ -41,6 +52,9 @@ try {
             <tr>
                 <td width=\"100%\">ETH</td><td width=\"100%\">{$ethInfo->ticker->last}</td>
             </tr>
+            <tr>
+                <td width=\"100%\">BCC</td><td width=\"100%\">{$bccInfo->data->ticker->last}</td>
+            </tr>
         </table>
 	    ";
 	
@@ -48,6 +62,7 @@ try {
 	print $tab_str;
 	
 } catch (Exception $e) {
+print_r($e);
 	$msg = $e -> getMessage();
 	error_log($msg);
 }
