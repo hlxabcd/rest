@@ -37,6 +37,12 @@ try {
 	$data = curl_exec($curl);
 	curl_close($curl);
 	$bccInfo = json_decode($data);
+	
+	$btc = $btcInfo->ticker->last;
+	$ltc= $ltcInfo->ticker->last;
+	$eth= $ethInfo->ticker->last;
+	$bcc= $bccInfo->data->ticker->last;
+	$btcP= $btc+$bcc;
 
 	$tab_str = "
 	    <table border=\"1\" width=\"80%\" align=\"center\">
@@ -44,16 +50,19 @@ try {
                 <td width=\"100%\"></td><td width=\"100%\">OKcoin</td>
             </tr>
             <tr>
-                <td width=\"100%\">BTC</td><td width=\"100%\">{$btcInfo->ticker->last}</td>
+                <td width=\"100%\">BTC</td><td width=\"100%\">{$btc}</td>
             </tr>
             <tr>
-                <td width=\"100%\">LTC</td><td width=\"100%\">{$ltcInfo->ticker->last}</td>
+                <td width=\"100%\">LTC</td><td width=\"100%\">{$ltc}</td>
             </tr>
             <tr>
-                <td width=\"100%\">ETH</td><td width=\"100%\">{$ethInfo->ticker->last}</td>
+                <td width=\"100%\">ETH</td><td width=\"100%\">{$eth}</td>
             </tr>
             <tr>
-                <td width=\"100%\">BCC</td><td width=\"100%\">{$bccInfo->data->ticker->last}</td>
+                <td width=\"100%\">BCC</td><td width=\"100%\">{$bcc}</td>
+            </tr>
+            <tr>
+                <td width=\"100%\">BTC+BCC</td><td width=\"100%\">{$btcP}</td>
             </tr>
         </table>
 	    ";
