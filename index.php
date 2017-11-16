@@ -10,25 +10,8 @@ $value = array(
     'eth' => 19.27,
     'rmb' => 3.78,
 );
- 
-try {
-
-	//OKCoin DEMO 入口
-	$client = new OKCoin(new OKCoin_ApiKeyAuthentication(API_KEY, SECRET_KEY));
-	//获取OKCoin行情（盘口数据）
-	$params = array('symbol' => 'btc_cny');
-	$btcInfo = $client -> tickerApi($params);
-	
-	//获取OKCoin行情（盘口数据）
-	$params = array('symbol' => 'ltc_cny');
-	$ltcInfo = $client -> tickerApi($params);
-	
-	//获取OKCoin行情（盘口数据）
-	$params = array('symbol' => 'eth_cny');
-	$ethInfo = $client -> tickerApi($params);
-
-	//获取via Bcc行情
-	$url = 'https://www.viabtc.com/api/v1/market/ticker?market=BCCCNY';
+function request_api($url)
+{
 	$curl = curl_init();
 	curl_setopt($curl, CURLOPT_URL, $url);
 	curl_setopt($curl, CURLOPT_HEADER, 0);
@@ -36,13 +19,31 @@ try {
 	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);//这个是重点。
 	$data = curl_exec($curl);
 	curl_close($curl);
-	$bccInfo = json_decode($data);
+	return json_decode($data,1);
+}
+ 
+try {
+	// btc价格
+	$url = 'https://www.okex.com/api/v1/future_ticker.do?symbol=btc_usd&contract_type=this_week';
+	$data = request_api($url);
+	$btc = $data['ticker']['last'];
 	
-	$btc = $btcInfo->ticker->last;
-	$ltc= $ltcInfo->ticker->last;
-	$eth= $ethInfo->ticker->last;
-	$bcc= $bccInfo->data->ticker->last;
-	$btcP= $btc+$bcc;
+	// ltc价格
+	$url = 'https://www.okex.com/api/v1/future_ticker.do?symbol=ltc_usd&contract_type=this_week';
+	$data = request_api($url);
+	$ltc = $data['ticker']['last'];
+
+	// eth价格
+	$url = 'https://www.okex.com/api/v1/future_ticker.do?symbol=eth_usd&contract_type=this_week';
+	$data = request_api($url);
+	$eth = $data['ticker']['last'];
+
+	// bch价格
+	$url = 'https://www.okex.com/api/v1/future_ticker.do?symbol=bch_usd&contract_type=this_week';
+	$data = request_api($url);
+	$bch = $data['ticker']['last'];
+	
+	$btcP = $btc+$bch;
 
 	$tab_str = "
 	    <table border=\"1\" width=\"80%\" align=\"center\">
@@ -59,7 +60,7 @@ try {
                 <td width=\"100%\">ETH</td><td width=\"100%\">{$eth}</td>
             </tr>
             <tr>
-                <td width=\"100%\">BCC</td><td width=\"100%\">{$bcc}</td>
+                <td width=\"100%\">BCC</td><td width=\"100%\">{$bch}</td>
             </tr>
             <tr>
                 <td width=\"100%\">BTC+BCC</td><td width=\"100%\">{$btcP}</td>
