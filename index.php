@@ -43,6 +43,11 @@ try {
 	$data = request_api($url);
 	$bch = $data['ticker']['last'];
 	
+	// bch价格
+	$url = 'https://www.okex.com/api/v1/ticker.do?symbol=bcd_usdt';
+	$data = request_api($url);
+	$bcd = $data['ticker']['last'];
+
 	$btcP = $btc+$bch;
 
 	$tab_str = "
@@ -60,7 +65,10 @@ try {
                 <td width=\"100%\">ETH</td><td width=\"100%\">{$eth}</td>
             </tr>
             <tr>
-                <td width=\"100%\">BCC</td><td width=\"100%\">{$bch}</td>
+                <td width=\"100%\">BCH</td><td width=\"100%\">{$bch}</td>
+            </tr>
+            <tr>
+                <td width=\"100%\">BCD</td><td width=\"100%\">{$bcd}</td>
             </tr>
             <tr>
                 <td width=\"100%\">BTC+BCC</td><td width=\"100%\">{$btcP}</td>
