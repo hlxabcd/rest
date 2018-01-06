@@ -2,8 +2,8 @@
 
 require_once (dirname(__FILE__) . '/OKCoin/OKCoin.php');
 
-const API_KEY = "OKCoin提供的api_key";
-const SECRET_KEY = "OKCoin提供的secret_key";
+const API_KEY = "8477f8be-e532-444f-944f-ac7134644b65";
+const SECRET_KEY = "1CDE3A6924D2155800D15B7D75AFC171";
 
 try {
 
@@ -12,12 +12,12 @@ try {
 
 	
 	//获取OKCoin行情（盘口数据）
-	$params = array('symbol' => 'ltc_usd');
+	$params = array('symbol' => 'ltc_usdt');
 	$result = $client -> tickerApi($params);
 	print_r($result);
 
 	//获取OKCoin市场深度
-	$params = array('symbol' => 'btc_usd', 'size' => 5);
+	$params = array('symbol' => 'btc_usdt', 'size' => 5);
 	$result = $client -> depthApi($params);
 	print_r($result);
 

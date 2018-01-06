@@ -24,29 +24,29 @@ function request_api($url)
  
 try {
 	// btc价格
-	$url = 'https://www.okex.com/api/v1/future_ticker.do?symbol=btc_usd&contract_type=this_week';
+	$url = 'https://www.okex.com/api/v1/future_ticker.do?symbol=btc_usd&contract_type=quarter';
 	$data = request_api($url);
 	$btc = $data['ticker']['last'];
 	
 	// ltc价格
-	$url = 'https://www.okex.com/api/v1/future_ticker.do?symbol=ltc_usd&contract_type=this_week';
+	$url = 'https://www.okex.com/api/v1/future_ticker.do?symbol=ltc_usd&contract_type=quarter';
 	$data = request_api($url);
 	$ltc = $data['ticker']['last'];
 
 	// eth价格
-	$url = 'https://www.okex.com/api/v1/future_ticker.do?symbol=eth_usd&contract_type=this_week';
+	$url = 'https://www.okex.com/api/v1/future_ticker.do?symbol=eth_usd&contract_type=quarter';
 	$data = request_api($url);
 	$eth = $data['ticker']['last'];
 
 	// bch价格
-	$url = 'https://www.okex.com/api/v1/future_ticker.do?symbol=bch_usd&contract_type=this_week';
+	$url = 'https://www.okex.com/api/v1/future_ticker.do?symbol=bch_usd&contract_type=quarter';
 	$data = request_api($url);
 	$bch = $data['ticker']['last'];
-	
-	// bch价格
-	$url = 'https://www.okex.com/api/v1/ticker.do?symbol=bcd_usdt';
+
+	// kcash价格
+	$url = 'https://www.okex.com/api/v1/ticker.do?symbol=kcash_usdt';
 	$data = request_api($url);
-	$bcd = $data['ticker']['last'];
+	$kcash= $data['ticker']['last'];
 
 	$btcP = $btc+$bch;
 
@@ -68,10 +68,7 @@ try {
                 <td width=\"100%\">BCH</td><td width=\"100%\">{$bch}</td>
             </tr>
             <tr>
-                <td width=\"100%\">BCD</td><td width=\"100%\">{$bcd}</td>
-            </tr>
-            <tr>
-                <td width=\"100%\">BTC+BCC</td><td width=\"100%\">{$btcP}</td>
+                <td width=\"100%\">KCash</td><td width=\"100%\">{$kcash}</td>
             </tr>
         </table>
 	    ";
